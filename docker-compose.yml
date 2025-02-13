@@ -59,7 +59,7 @@ services:
       - db
       - api
 
-# volumes와 networks 블록 ##
+# volumes와 networks 블록
 volumes:
   db-volume:
 
