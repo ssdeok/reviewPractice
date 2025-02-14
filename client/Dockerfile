@@ -22,6 +22,7 @@ FROM nginx
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+COPY https.conf /etc/nginx/conf.d/default.conf
 # 호스트의 https.conf를 컨테이너 내부 경로 /etc/nginx/conf.d 복사
 
 # Build Stage에서 빌드 결과물(정적 파일) 복사
