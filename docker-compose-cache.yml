@@ -61,6 +61,9 @@ services:
       - "443:443"
     networks:
       - api-network
+    volumes:
+      - /etc/letsencrypt/live/43.203.172.53.sslip.io/fullchain.pem:/etc/letsencrypt/live/43.203.172.53.sslip.io/fullchain.pem
+      - /etc/letsencrypt/live/43.203.172.53.sslip.io/privkey.pem:/etc/letsencrypt/live/43.203.172.53.sslip.io/privkey.pem
     env_file:
       - .env
     depends_on:
