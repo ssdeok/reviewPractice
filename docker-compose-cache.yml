@@ -54,7 +54,7 @@ services:
       cache_from:
         - type=local,src=/tmp/docker-cache/client
       cache_to:
-        - ttype=local,dest=/tmp/.buildx-cache/client,mode=max
+        - type=local,dest=/tmp/.buildx-cache/client,mode=max
     image: potatopizza/client:latest
     ports:
       - "80:80"
