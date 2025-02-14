@@ -13,14 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 캐시 하는 부분분
-      - name: Set Up Cache Repo
-        uses: actions/cache@v4.2.0
-        with:
-          path: /tmp/docker-cache # 캐시로 관리할 경로
-          key: docker-cache-${{ github.sha }} # 불러올 캐시 이름(식별자)
-          restore-keys: docker-cache- # 만약 캐시 key를 찾지못하면 대체할 캐시 key 패턴
-
       - name: Create .env file
         run: |
           echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
@@ -37,28 +29,20 @@ jobs:
       - name: Login DockerHub
         run: echo '${{ secrets.DOCKER_PASSWORD}}' | docker login -u '${{ secrets.DOCKER_USERNAME }}' --password-stdin
 
-      # 캐시 하는 부분
-      # 빌드킷 설치치
-      - name: Set up Docker Buildkit
-        uses: docker/setup-buildx-action@v3
-      # buildkit 빌더(이미지 생성 도구) 생성 & 설정정
-      - name: Create buildkit 빌더
-        run: docker buildx
-
       - name: Docker Image Build
-        run: docker compose -f docker-compose-cache.yml build
+        run: docker compose -f docker-compose.yml build
 
       - name: Docker Image Push
-        run: docker compose -f docker-compose-cache.yml push
+        run: docker compose -f docker-compose.yml push
 
-      - name: Copy .env / docker-compose-cache.yml
+      - name: Copy .env / docker-compose.yml
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose-cache,.env"
+          source: "docker-compose.yml,.env"
           target: "~/github-actions-work-directory"
 
       - name: Pull Image & Up Container
@@ -70,7 +54,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/github-actions-work-directory
-            docker compose -f docker-compose-cache.yml pull
-            docker compose -f docker-compose-cache.yml down
-            docker compose -f docker-compose-cache.yml up -d
-            docker system prune -f
+            docker compose -f docker-compose.yml pull
+            docker compose -f docker-compose.yml down
+            docker compose -f docker-compose.yml up -d
