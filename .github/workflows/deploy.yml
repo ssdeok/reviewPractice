@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "docker-compose-cache,.env"
+          source: "docker-compose-cache.yml,.env"
           target: "~/github-actions-work-directory"
 
       - name: Pull Image & Up Container
