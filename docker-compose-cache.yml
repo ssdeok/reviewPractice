@@ -32,7 +32,7 @@ services:
       cache_from:
         - type=local,src=/tmp/docker-cache/api
       cache_to:
-        - type=local,dest=/tmp/.buildx-cache/api,mode=max
+        - type=local,dest=/tmp/docker-cache/api,mode=max
     image: potatopizza/api-image:latest
     ports:
       - "8080:8080"
@@ -54,7 +54,7 @@ services:
       cache_from:
         - type=local,src=/tmp/docker-cache/client
       cache_to:
-        - type=local,dest=/tmp/.buildx-cache/client,mode=max
+        - type=local,dest=/tmp/docker-cache/client,mode=max
     image: potatopizza/client:latest
     ports:
       - "80:80"
